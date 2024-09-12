@@ -12,5 +12,5 @@ A novel metadata schema has been introduced to address the sparsity of microstru
 
 ## Documentation
 
-A paper describing the Metadata Schema can be found on ArXiv : https://doi.org/10.48550/arXiv.2408.03965
+A paper describing the Metadata Schema can be found on ArXiv: (<u>https://doi.org/10.48550/arXiv.2408.03965</u>)
 
