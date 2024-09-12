@@ -6,6 +6,10 @@ A novel metadata schema has been introduced to address the sparsity of microstru
   - Organization: ICAMS, Ruhr University Bochum, Germany
   - Contact: <ronak.shoghi@rub.de>
 
+## Download the JSON Schema
+
+[View or Download JSON Schema](https://github.com/Ronakshoghi/MetadataSchema/blob/main/microstructure_sensitive_mechanical_metadata_schema.json)
+
 ## Documentation
 
 A paper describing the Metadata Schema can be found on ArXiv : https://doi.org/10.48550/arXiv.2408.03965
