@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2019-09/schema",
-  "$id": "https://github.com/Ronakshoghi/MetadataSchema/microstructure_sensitive_mechanical_metadata_schema.json",
+  "$id": "https://github.com/Ronakshoghi/MetadataSchema/blob/main/microstructure_sensitive_mechanical_metadata_schema.json",
   "type": "object",
-  "description": "Metadata schema for microstructure-sensitive mechanical data",
+  "description": "A workflow-centric metadata schema for microstructure-sensitive mechanical data",
   "properties": {
     "identifier": {
       "type": "string",
@@ -144,7 +144,7 @@
       "description": "Names of the software or computational tool used for running the simulation."
     },
     "software_version": {
-      "type": "number",
+      "type": "string",
       "description": "Specifies the version number of the software or computational tool used for running the simulation."
     },
     "system": {
@@ -152,7 +152,7 @@
       "description": "The name of the operating system where the data was generated."
     },
     "system_version": {
-      "type": "number",
+      "type": "string",
       "description": "Specifies the version of the operating system."
     },
     "processor_specifications": {
@@ -290,8 +290,20 @@
           }
         },
         "required": ["vertex_list", "constraints"],
-        "description": "Defines mechanical boundary conditions including vertex lists, constraints, loading types, and applied loads."
-      }
+        "if": {
+          "properties": {
+            "constraints": {
+              "contains": {
+                "const": "loaded"
+              }
+            }
+          }
+        },
+        "then": {
+          "required": ["loading_type", "loading_mode", "applied_load"]
+        }
+      },
+      "description": "Defines mechanical boundary conditions including vertex lists, constraints, loading types, and applied loads."
     },
     "thermal_BC": {
       "type": "array",
@@ -342,8 +354,20 @@
           }
         },
         "required": ["vertex_list", "constraints"],
-        "description": "Defines thermal boundary conditions including vertex lists, constraints, loading modes, and applied loads."
-      }
+        "if": {
+          "properties": {
+            "constraints": {
+              "contains": {
+                "const": "loaded"
+              }
+            }
+          }
+        },
+        "then": {
+          "required": ["loading_mode", "applied_load"]
+        }
+      },
+      "description": "Defines thermal boundary conditions including vertex lists, constraints, loading modes, and applied loads."
     },
     "material": {
       "type": "array",
@@ -387,37 +411,16 @@
               "euler_angles": {
                 "type": "object",
                 "properties": {
-                  "Phi1": {
-                    "type": "array",
-                    "items": {
-                      "type": "number"
-                    },
-                    "description": "The Phi1 Euler angle."
-                  },
-                  "Phi": {
-                    "type": "array",
-                    "items": {
-                      "type": "number"
-                    },
-                    "description": "The Phi Euler angle."
-                  },
-                  "Phi2": {
-                    "type": "array",
-                    "items": {
-                      "type": "number"
-                    },
-                    "description": "The Phi2 Euler angle."
-                  }
+                  "Phi1": { "type": "array", "items": { "type": "number" }, "description": "Phi1 Euler angle." },
+                  "Phi": { "type": "array", "items": { "type": "number" }, "description": "Phi Euler angle." },
+                  "Phi2": { "type": "array", "items": { "type": "number" }, "description": "Phi2 Euler angle." }
                 },
+                "required": ["Phi1", "Phi", "Phi2"],
                 "description": "The orientation of each grain given as Euler angles in active rotation from global coordinates."
               },
               "grain_count": {
                 "type": "integer",
-                "description": "The total number of material grains, equal to the number of orientation angles."
-              },
-              "orientation_identifier": {
-                "type": "string",
-                "description": "Hash or identifier for the orientation."
+                "description": "The total number of material grains equal to the number of orientation angles."
               },
               "texture_type": {
                 "type": "string",
@@ -426,7 +429,7 @@
               "frame": {
                 "type": "string",
                 "enum": ["lab", "material"],
-                "description": "The coordinate system used for the orientation data: 'lab' or 'material'."
+                "description": "The coordinate system used for the orientation data. Can be either 'lab' (fixed relative to laboratory) or 'material' (fixed relative to material)."
               },
               "rotation_type": {
                 "type": "string",
@@ -435,13 +438,18 @@
               },
               "software": {
                 "type": "string",
-                "description": "Name of the software or tools used to generate orientation."
+                "description": "Name of software or tools used to generate orientation."
               },
               "software_version": {
                 "type": "string",
                 "description": "The version of the software used to generate orientation."
+              },
+              "orientation_identifier": {
+                "type": "string",
+                "description": "Hash or identifier for the orientation."
               }
             },
+            "required": ["euler_angles", "grain_count", "texture_type"],
             "description": "Describes the material's orientation, including Euler angles, grain count, and texture type."
           }
         },

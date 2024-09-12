@@ -9,9 +9,22 @@ ICAMS, Ruhr University Bochum, Germany
 August 2024
 """
 
-
-
 import json
+
+def remove_empty_entries(data):
+    if isinstance(data, dict):
+        new_dict = {}
+        for key, value in data.items():
+            cleaned_value = remove_empty_entries(value)
+            if cleaned_value is not None and cleaned_value != {} and cleaned_value != []:
+                new_dict[key] = cleaned_value
+        return new_dict if new_dict else None
+    elif isinstance(data, list):
+        cleaned_list = filter(None, (remove_empty_entries(item) for item in data))
+        return [item for item in cleaned_list if item != {} and item != []]
+    else:
+        return data if data is not None else None
+
 
 Dict_Test = {
     "identifier": None,
@@ -52,11 +65,11 @@ Dict_Test = {
     "discretization_count": None,
     "origin": {
         "software": None,
-        "software Version": None,
+        "software_version": None,
         "system": None,
-        "system Version": None,
-        "Input Path": None,
-        "Results Path": None
+        "system_version": None,
+        "input_path": None,
+        "results_path": None
         },
     "global_temperature": None,
     "mechanical_BC": [
@@ -74,7 +87,7 @@ Dict_Test = {
         {"vertices_list": [None],
         "constraints": [None, None, None],
         "loading_mode": None,
-         "applied_load": [{"magnitude": None,
+        "applied_load": [{"magnitude": None,
                            "frequency": None,
                            "duration": None}]
         }
@@ -102,5 +115,11 @@ Dict_Test = {
     "plastic_strain": {}
 }
 
-with open('template.json', 'w') as fp:
-    json.dump(Dict_Test, fp)
+cleaned_dict = remove_empty_entries(Dict_Test)
+
+if cleaned_dict:
+    with open('test.json', 'w') as fp:
+        json.dump(cleaned_dict, fp, indent=4)
+    print("JSON saved successfully.")
+else:
+    print("No relevant data to save.")
