@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "https://github.com/Ronakshoghi/MetadataSchema/blob/main/crystal_plasticity_metadata_schema.json",
+  "type": "object",
+  "description": "An initial schema for anisotropic crystal plasticity.",
+  "properties": {
+    "elastic_parameters": {
+      "type": "object",
+      "description": "Elastic properties of the material.",
+      "properties": {
+        "C11": {
+          "type": "number",
+          "description": "Elastic constant C11.",
+          "property": "Stiffness"
+        },
+        "C12": {
+          "type": "number",
+          "description": "Elastic constant C12.",
+          "property": "Stiffness"
+        },
+        "C44": {
+          "type": "number",
+          "description": "Elastic constant C44.",
+          "property": "Stiffness"
+        }
+      },
+      "required": ["C11", "C12", "C44"]
+    },
+    "plastic_model_name": {
+      "type": "string",
+      "description": "Name of the plasticity model."
+    },
+    "plastic_parameters": {
+      "type": "object",
+      "description": "Plastic properties of the material.",
+      "properties": {
+        "reference_shear_rate": {
+          "type": "number",
+          "description": "Reference shear rate."
+        },
+        "initial_critical_resolved_shear_stress": {
+          "type": "number",
+          "description": "Initial critical resolved shear stress.",
+          "property": "Stress"
+        },
+        "saturated_slip_resistance": {
+          "type": "number",
+          "description": "Saturated slip resistance.",
+          "property": "Stress"
+        },
+        "strain_rate_sensitivity_exponent": {
+          "type": "number",
+          "description": "Strain rate sensitivity exponent."
+        },
+        "reference_hardening_rate": {
+          "type": "number",
+          "description": "Reference hardening rate.",
+          "property": "Stiffness"
+        },
+        "hardening_exponent": {
+          "type": "number",
+          "description": "Hardening exponent."
+        }
+      }
+    }
+  },
+  "required": ["elastic_parameters","plastic_parameters"],
+  "units": {
+    "type": "object",
+    "description": "Units for different physical quantities.",
+    "properties": {
+      "Stress": {
+        "type": "string",
+        "enum": ["MPa"],
+        "description": "Unit of stress, default is MPa."
+      },
+      "Strain": {
+        "type": "number",
+        "enum": [1],
+        "description": "Unit of strain, dimensionless."
+      },
+      "Stiffness": {
+        "type": "string",
+        "enum": ["MPa"],
+        "description": "Unit of stiffness, default is MPa."
+      }
+    },
+    "required": ["Stress", "Strain", "Stiffness"]
+  }
+}
