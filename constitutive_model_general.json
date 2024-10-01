@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "https://example.com/schemas/constitutive_model_general.json",
+  "type": "object",
+  "description": "A flexible general schema for constitutive models, allowing optional elastic, plastic, and damage models.",
+  "properties": {
+    "elastic_model_name": {
+      "type": ["string", "null"],
+      "description": "Name of the elastic model (optional)."
+    },
+    "elastic_parameters": {
+      "type": ["object", "null"],
+      "description": "Elastic properties of the material (optional).",
+      "properties": {},
+      "additionalProperties": true
+    },
+    "plastic_model_name": {
+      "type": ["string", "null"],
+      "description": "Name of the plasticity model (optional)."
+    },
+    "plastic_parameters": {
+      "type": ["object", "null"],
+      "description": "Plastic properties of the material, including hardening (optional).",
+      "properties": {},
+      "additionalProperties": true
+    },
+    "damage_model_name": {
+      "type": ["string", "null"],
+      "description": "Name of the damage model (optional)."
+    },
+    "damage_parameters": {
+      "type": ["object", "null"],
+      "description": "Parameters specific to the damage model (optional).",
+      "properties": {},
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}
