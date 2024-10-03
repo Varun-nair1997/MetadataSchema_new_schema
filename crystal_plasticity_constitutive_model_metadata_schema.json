@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "https://github.com/Ronakshoghi/MetadataSchema/blob/main/crystal_plasticity_constitutive_model_metadata_schema.json",
+  "version": "1.0.0",
+  "type": "object",
+  "description": "An initial schema for anisotropic crystal plasticity, inheriting from the general constitutive model schema.",
+  "allOf": [
+    {
+      "$ref": "https://github.com/Ronakshoghi/MetadataSchema/blob/main/general_constitutive_model_metadata_schema.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "description": "Reference to the schema used for this crystal plasticity model."
+        },
+        "elastic_model_name": {
+          "type": "string",
+          "description": "Name of the elastic model.",
+          "const": "Anisotropic Elasticity"
+        },
+        "elastic_parameters": {
+          "type": "object",
+          "description": "Elastic properties of the material.",
+          "properties": {
+            "C11": {
+              "type": "number",
+              "description": "Elastic constant C11."
+            },
+            "C12": {
+              "type": "number",
+              "description": "Elastic constant C12."
+            },
+            "C44": {
+              "type": "number",
+              "description": "Elastic constant C44."
+            }
+          },
+          "required": ["C11", "C12", "C44"]
+        },
+        "plastic_model_name": {
+          "type": "string",
+          "description": "Name of the plasticity model.",
+          "const": "Crystal Plasticity"
+        },
+        "plastic_parameters": {
+          "type": "object",
+          "description": "Plastic properties of the material.",
+          "properties": {
+            "reference_shear_rate": {
+              "type": "number",
+              "description": "Reference shear rate."
+            },
+            "initial_critical_resolved_shear_stress": {
+              "type": "number",
+              "description": "Initial critical resolved shear stress."
+            },
+            "saturated_slip_resistance": {
+              "type": "number",
+              "description": "Saturated slip resistance."
+            },
+            "strain_rate_sensitivity_exponent": {
+              "type": "number",
+              "description": "Strain rate sensitivity exponent."
+            },
+            "reference_hardening_rate": {
+              "type": "number",
+              "description": "Reference hardening rate."
+            },
+            "hardening_exponent": {
+              "type": "number",
+              "description": "Hardening exponent."
+            }
+          },
+          "required": [
+            "reference_shear_rate",
+            "initial_critical_resolved_shear_stress",
+            "saturated_slip_resistance",
+            "strain_rate_sensitivity_exponent",
+            "reference_hardening_rate",
+            "hardening_exponent"
+          ]
+        }
+      },
+      "required": ["elastic_parameters", "plastic_parameters"]
+    }
+  ],
+  "units": {
+    "type": "object",
+    "description": "Units for different physical quantities.",
+    "properties": {
+      "Stress": {
+        "type": "string",
+        "enum": ["MPa"],
+        "description": "Unit of stress, default is MPa."
+      },
+      "Strain": {
+        "type": "string",
+        "enum": ["Dimensionless"],
+        "description": "Unit of strain, dimensionless."
+      },
+      "Stiffness": {
+        "type": "string",
+        "enum": ["MPa"],
+        "description": "Unit of stiffness, default is MPa."
+      }
+    },
+    "required": ["Stress", "Strain", "Stiffness"]
+  }
+}
