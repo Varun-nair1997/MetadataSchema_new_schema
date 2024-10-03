@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "https://github.com/Ronakshoghi/MetadataSchema/blob/main/J2_plasticity_voce_hardening_constitutive_model_metadata_schema.json",
+  "version": "1.0.0",
+  "type": "object",
+  "description": "Schema for J2 plasticity model with Voce hardening. Inherits from the general constitutive model schema.",
+  "allOf": [
+    {
+      "$ref":"https://raw.githubusercontent.com/Ronakshoghi/MetadataSchema/main/general_constitutive_model_metadata_schema.json"
+    }
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Reference to the schema used for this crystal plasticity model."
+      },
+    "elastic_model_name": {
+      "type": "string",
+      "description": "Name of the elastic model.",
+      "const": "Linear Elasticity"
+      },
+    "elastic_parameters": {
+      "type": "object",
+      "description": "Elastic properties of the material.",
+      "properties": {
+        "youngs_modulus": {
+          "type": "number",
+          "description": "Young's modulus of the material.",
+          "property": "Stiffness"
+        },
+        "poissons_ratio": {
+          "type": "number",
+          "description": "Poisson's ratio of the material."
+        }
+      },
+      "required": ["youngs_modulus", "poissons_ratio"]
+    },
+    "plastic_model_name": {
+      "type": "string",
+      "description": "Name of the plasticity model",
+      "const": "J2 Plasticity with Voce Hardening"
+    },
+    "plastic_parameters": {
+      "type": "object",
+      "description": "Parameters specific to the plasticity model, including J2 plasticity and Voce hardening.",
+      "properties": {
+        "initial_yield_stress": {
+          "type": "number",
+          "description": "Initial yield stress for J2 plasticity.",
+          "property": "Stress"
+        },
+        "voce_saturation_stress": {
+          "type": "number",
+          "description": "Saturation stress for Voce hardening.",
+          "property": "Stress"
+        },
+        "voce_hardening_rate": {
+          "type": "number",
+          "description": "Hardening rate for Voce hardening.",
+          "property": "Stiffness"
+        }
+      },
+      "required": ["initial_yield_stress", "voce_saturation_stress", "voce_hardening_rate"]
+    }
+  },
+  "required": ["elastic_parameters", "plastic_model_name", "plastic_parameters"],
+  "units": {
+    "type": "object",
+    "description": "Units for different physical properties.",
+    "properties": {
+      "Stress": {
+        "type": "string",
+        "enum": ["MPa"],
+        "description": "Unit of stress, default is MPa."
+      },
+      "Stiffness": {
+        "type": "string",
+        "enum": ["MPa"],
+        "description": "Unit of stiffness, default is MPa."
+      }
+    },
+    "required": ["Stress", "Stiffness"]
+  }
+}
